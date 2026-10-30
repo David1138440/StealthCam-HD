@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile information stored upon login",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "RecordingMetadata": {
+      "title": "Recording Metadata",
+      "description": "Metadata for a video recording (local storage reference for now)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "duration": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "title": { "type": "string" }
+      },
+      "required": ["id", "userId", "duration", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/recordings/{recordingId}": {
+      "schema": "RecordingMetadata",
+      "description": "Metadata for individual recordings"
+    }
+  }
+}

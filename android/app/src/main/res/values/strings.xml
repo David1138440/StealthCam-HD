@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">StealthCam HD</string>
+    <string name="camera_permission_required">Se requieren permisos de cámara y micrófono para grabar video.</string>
+    <string name="grant_permission">Conceder Permisos</string>
+    <string name="main_camera">Cámara Principal (Trasera)</string>
+    <string name="front_camera">Cámara Frontal (Selfie)</string>
+    <string name="stealth_mode">Modo Camuflaje</string>
+    <string name="recording">Grabando</string>
+    <string name="tap_to_reveal">Doble toque para desbloquear pantalla</string>
+</resources>

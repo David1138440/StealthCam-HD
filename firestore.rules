@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_-]+$'); }
+
+    // --- Validation Blueprints ---
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email']) &&
+             data.keys().size() <= 12 && 
+             data.uid == request.auth.uid &&
+             data.email is string && data.email.size() <= 128;
+    }
+
+    function isValidRecording(data) {
+      return data.keys().hasAll(['id', 'userId', 'duration', 'timestamp']) &&
+             data.keys().size() <= 12 &&
+             data.userId == request.auth.uid &&
+             data.id is string && data.id.size() <= 128 &&
+             data.duration is number &&
+             data.timestamp is string; // format checked by type
+    }
+
+    // --- Rules ---
+    match /test/connection {
+      allow get: if true;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUser(incoming()) && 
+                       incoming().uid == existing().uid;
+    }
+
+    match /recordings/{recordingId} {
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid && isValidId(recordingId);
+      allow create: if isSignedIn() && isValidId(recordingId) && incoming().userId == request.auth.uid && isValidRecording(incoming());
+      allow update: if (
+        isSignedIn() && 
+        isValidId(recordingId) &&
+        isValidRecording(incoming()) && 
+        existing().userId == request.auth.uid &&
+        incoming().userId == existing().userId &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['title'])
+      );
+      allow delete: if isSignedIn() && isValidId(recordingId) && existing().userId == request.auth.uid;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Remix: StealthCam HD",
+  "description": "Una aplicación profesional para la grabación de video en alta definición con modos de camuflaje y gestión de archivos local.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="50%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </radialGradient>
+  </defs>
+  <!-- Full background for maskable safe-zone -->
+  <rect width="512" height="512" fill="#09090b"/>
+  
+  <!-- Centered safe zone circle (within 80% safe area) -->
+  <g transform="translate(51.2, 51.2) scale(0.8)">
+    <circle cx="256" cy="256" r="160" fill="none" stroke="url(#grad)" stroke-width="16" stroke-dasharray="16 8"/>
+    <circle cx="256" cy="256" r="128" fill="#111827" stroke="#10b981" stroke-width="6"/>
+    <circle cx="256" cy="256" r="96" fill="#030712" />
+    <circle cx="256" cy="256" r="42" fill="#ef4444" />
+    <circle cx="240" cy="240" r="12" fill="#ffffff" opacity="0.6" />
+
+    <line x1="256" y1="60" x2="256" y2="100" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+    <line x1="256" y1="412" x2="256" y2="452" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+    <line x1="60" y1="256" x2="100" y2="256" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+    <line x1="412" y1="256" x2="452" y2="256" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>
